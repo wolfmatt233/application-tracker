@@ -1,0 +1,57 @@
+.table {
+  display: flex;
+  flex-flow: column nowrap;
+
+  .row {
+    text-decoration: none;
+    color: #1f1f1f;
+    padding: 0 5px;
+    height: 30px;
+    display: flex;
+
+    .col {
+      padding: 0 5px;
+      text-wrap: nowrap;
+      overflow: hidden;
+      height: 30px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .status-1,
+    .status-2,
+    .status-3,
+    .status-4 {
+      font-weight: bold;
+    }
+
+    .status-1 {
+      color: #ffa500;
+    }
+    .status-2 {
+      color: greenyellow;
+    }
+    .status-3 {
+      color: green;
+    }
+    .status-4 {
+      color: red;
+    }
+  }
+
+  .row:hover {
+    background-color: #ff4500;
+    color: #fff;
+  }
+
+  .odd-row {
+    background-color: #1f1f1f;
+    color: #fff;
+  }
+
+  .list-header:hover {
+    background-color: #1f1f1f;
+    color: #fff;
+  }
+}

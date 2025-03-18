@@ -1,5 +1,6 @@
 <?php
 
+use Api\Middleware\RequestMiddleware;
 use Slim\Factory\AppFactory;
 use Illuminate\Database\Capsule\Manager;
 
@@ -7,6 +8,7 @@ use Illuminate\Database\Capsule\Manager;
 $app = AppFactory::create();
 $app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
+$app->add(new RequestMiddleware());
 
 // Database
 

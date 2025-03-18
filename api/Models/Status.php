@@ -13,4 +13,9 @@ class Status extends Model
     {
         return $this->hasMany(Application::class, 'id');
     }
+
+    public static function getStatus()
+    {
+        return self::all();
+    }
 }

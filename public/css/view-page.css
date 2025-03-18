@@ -1,0 +1,25 @@
+.view-title {
+  border-bottom: 1px solid orangered;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+
+  h3 {
+  }
+
+  p {
+    margin-top: 5px;
+  }
+}
+
+.half-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .text-wrapper {
+    width: 49%;
+
+    h4 {
+      margin-bottom: 5px;
+    }
+  }
+}

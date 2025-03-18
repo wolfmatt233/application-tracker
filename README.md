@@ -18,3 +18,11 @@ Tables (MySQL)
   - Communicating
   - Interviewing
   - Rejected
+
+## TODO
+
+- Delete for applications
+- Searching (Job title, Company name)
+- Sorting (Application Date, Last Contact Date)
+- Filtering (Status, exclude rejected)
+- Responsive styling upgrades (especially for main list table)
