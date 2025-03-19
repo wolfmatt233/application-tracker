@@ -19,7 +19,37 @@ class Application extends Model
 
     public static function getApplications()
     {
-        return self::with('status')->get();
+        return self::whereNot('status_id', 4)->with('status')->get();
+    }
+
+    public static function getApplicationsByParams($params)
+    {
+        $query = self::query();
+
+        // Search query
+        if (!empty($params['q'])) {
+            $query->where('company_name', 'like', '%' . $params['q'] . '%')
+                ->orWhere('job_title', 'like', '%' . $params['q'] . '%');
+        }
+
+        // Sort by date
+        if (!empty($params['date_sort'])) {
+            $direction = str_ends_with($params['date_sort'], 'desc') ? 'desc' : 'asc';
+            $column = str_replace(['_asc', '_desc'], '', $params['date_sort']);
+
+            if ($column === 'apply_date' || $column === 'last_contact_date') {
+                $query->orderBy($column, $direction);
+            }
+        }
+
+        // Filter out 'rejected' status
+        if (!empty($params['filter'])) {
+            if ($params['filter'] === 'on') {
+                $query->whereNot('status_id', 4);
+            }
+        }
+
+        return $query->get();
     }
 
     public static function getApplicationById($id)

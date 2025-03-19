@@ -15,10 +15,17 @@ class Controller
 {
     public function index(Request $request, Response $response, array $args)
     {
-        $applications = Application::getApplications();
+        $params = $request->getQueryParams();
+        $applications = '';
+
+        if (count($params) > 0) {
+            $applications = Application::getApplicationsByParams($params);
+        } else {
+            $applications = Application::getApplications();
+        }
 
         $view = new IndexList();
-        $view->display($applications);
+        $view->display($applications, $params);
 
         return $response;
     }
