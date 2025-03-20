@@ -11,7 +11,7 @@ class CreateForm extends MainView
         parent::header();
         ?>
 
-        <form class="form" action="http://localhost:5000/applications" method="POST">
+        <form class="form" action="http://<?= parent::$host ?>/applications" method="POST">
             <h3>Add Application</h3>
 
             <label for="company_name">Company Name</label>

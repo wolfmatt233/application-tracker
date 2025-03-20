@@ -13,6 +13,13 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Controller
 {
+    public static function sendHeader($uri)
+    {
+        $host = $_SERVER['HTTP_HOST'];
+        header("Location: http://$host/$uri");
+        die();
+    }
+
     public function index(Request $request, Response $response, array $args)
     {
         $params = $request->getQueryParams();
@@ -35,9 +42,13 @@ class Controller
         $id = $args['id'];
         $application = Application::getApplicationById($id);
 
-        $view = new View();
-        $view->display($application);
-
+        if (!$application) {
+            self::sendHeader("applications");
+        } else {
+            $view = new View();
+            $view->display($application);
+        }
+        
         return $response;
     }
 
@@ -68,8 +79,7 @@ class Controller
         $body = $request->getParsedBody();
         $application = Application::createApplication($body);
 
-        header('Location: http://localhost:5000/applications/' . $application->id);
-        die();
+        self::sendHeader("applications/$application->id");
     }
 
     public function update(Request $request, Response $response, array $args)
@@ -78,19 +88,14 @@ class Controller
         $body = $request->getParsedBody();
         $application = Application::updateApplication($id, $body);
 
-        header('Location: http://localhost:5000/applications/' . $application->id);
-        die();
+        self::sendHeader("applications/$application->id");
     }
 
     public function delete(Request $request, Response $response, array $args)
     {
         $id = $args['id'];
+        $application = Application::delete();
 
-        ob_start();
-        include __DIR__ . '../../Pages/edit.php';
-        $html = ob_get_clean();
-        echo $html;
-
-        return $response;
+        self::sendHeader("/applications");
     }
 }

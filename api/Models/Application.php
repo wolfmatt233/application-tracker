@@ -42,10 +42,10 @@ class Application extends Model
             }
         }
 
-        // Filter out 'rejected' status
-        if (!empty($params['filter'])) {
-            if ($params['filter'] === 'on') {
-                $query->whereNot('status_id', 4);
+        // Filter out unchecked status filters
+        for ($i = 1; $i <= 4; $i++) {
+            if (!array_key_exists("filter-$i", $params)) {
+                $query->whereNot('status_id', $i);
             }
         }
 

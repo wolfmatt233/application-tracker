@@ -11,8 +11,17 @@ class IndexList extends MainView
         parent::$pageTitle = 'Applications';
         parent::header();
 
+        // Search
         $query = '';
         $filter = "checked='on'";
+
+        // Filtering
+        $status1 = "checked='on'";
+        $status2 = "checked='on'";
+        $status3 = "checked='on'";
+        $status4 = "";
+
+        // Sorting
         $dateSort = '';
         $applyDesc = '';
         $applyAsc = '';
@@ -23,6 +32,16 @@ class IndexList extends MainView
             $query = isset($params['filter']) ? $params['q'] : '';
             $filter = isset($params['filter']) ? 'checked="' . $params['filter'] . '"' : '';
             $dateSort = $params['date_sort'];
+        }
+
+        if (count($params) > 0) {
+            for ($i = 1; $i <= 4; $i++) {
+                if (array_key_exists("filter-$i", $params)) {
+                    ${"status$i"} = "checked='on'";
+                } else {
+                    ${"status$i"} = "";
+                }
+            }
         }
 
         switch ($dateSort) {
@@ -45,7 +64,7 @@ class IndexList extends MainView
 
         ?>
 
-        <form action="http://localhost:5000/applications" id="searchForm">
+        <form action="http://<?= parent::$host ?>/applications" id="searchForm">
             <div class="sort-filter">
                 <select name="date_sort" id="sortList">
                     <option value="apply_date_desc" disabled>Sort By</option>
@@ -54,28 +73,24 @@ class IndexList extends MainView
                     <option value="last_contact_date_desc" <?= $lastDesc ?>>Last Contacted (Desc)</option>
                     <option value="last_contact_date_asc" <?= $lastAsc ?>>Last Contacted (Asc)</option>
                 </select>
-                <div class="filter-closed">
+
+                <div id="filterBox" class="filter-closed">
                     <p>Filter</p>
                     <div class="filter-dropdown">
-                        <p>
-                            Applied <input type="checkbox" name="filter-1" value="1">
-                        </p>
-                        <p>
-                            Communicating <input type="checkbox" name="filter-2" value="1">
-                        </p>
-                        <p>
-                            Interviewing <input type="checkbox" name="filter-3" value="1">
-                        </p>
-                        <p>
-                            Rejected <input type="checkbox" name="filter-4" value="1">
-                        </p>
+                        <label>
+                            Applied <input type="checkbox" name="filter-1" <?= $status1 ?>>
+                        </label>
+                        <label>
+                            Communicating <input type="checkbox" name="filter-2" <?= $status2 ?>>
+                        </label>
+                        <label>
+                            Interviewing <input type="checkbox" name="filter-3" <?= $status3 ?>>
+                        </label>
+                        <label>
+                            Rejected <input type="checkbox" name="filter-4" <?= $status4 ?>>
+                        </label>
                     </div>
                 </div>
-                <div class="checkbox-filter">
-                    <label for="filter">Remove rejected</label>
-                    <input type="checkbox" name="filter" <?= $filter ?> id="filterList">
-                </div>
-
             </div>
 
             <div class="search-box">
@@ -84,33 +99,29 @@ class IndexList extends MainView
             </div>
         </form>
 
-        <div class="table">
-            <div class="row odd-row list-header">
-                <p class="col">ID</p>
-                <p class="col">Company</p>
-                <p class="col">Job Title</p>
-                <p class="col">Application Date</p>
-                <p class="col">Last Contact Date</p>
-                <p class="col">Status</p>
+        <div class="list-table">
+            <div class="header-row">
+                <p>Company</p>
+                <p>Job Title</p>
+                <p>Applied</p>
+                <p>Last Contacted</p>
+                <p>Status</p>
             </div>
 
             <?php foreach ($applications as $idx => $app) {
-                $odd = '';
+                $odd = $idx % 2 !== 0 ? 'odd-row' : 'list-row';
 
-                if ($idx % 2 !== 0) {
-                    $odd = 'odd-row';
-                }
+
 
                 $status = $app->status->level;
                 ?>
 
-                <a href="http://localhost:5000/applications/<?= $app->id ?>" class="row <?= $odd ?>">
-                    <p class="col"><?= $app->id ?></p>
-                    <p class="col"><?= $app->company_name ?></p>
-                    <p class="col"><?= $app->job_title ?></p>
-                    <p class="col"><?= $app->apply_date ?></p>
-                    <p class="col"><?= $app->last_contact_date ?></p>
-                    <p class="col status-<?= $app->status_id ?>"><?= $status ?></p>
+                <a href="http://<?= parent::$host ?>/applications/<?= $app->id ?>" class="<?= $odd ?>">
+                    <p><?= $app->company_name ?></p>
+                    <p><?= $app->job_title ?></p>
+                    <p><?= $app->apply_date ?></p>
+                    <p><?= $app->last_contact_date ?></p>
+                    <p class="status-<?= $app->status_id ?>"><?= $status ?></p>
                 </a>
                 <?php
             } ?>

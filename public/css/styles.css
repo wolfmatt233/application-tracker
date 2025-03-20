@@ -11,7 +11,7 @@ body {
 
 .app-wrapper {
   background-color: #e4eaf2;
-  min-height: 100vh;
+  min-height: calc(100vh);
 
   .content-wrapper {
     max-width: 960px;

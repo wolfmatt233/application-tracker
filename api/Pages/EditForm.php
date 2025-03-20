@@ -12,7 +12,7 @@ class EditForm extends MainView
         parent::header();
         ?>
 
-        <form class="form" action="http://localhost:5000/applications/<?= $id ?>" method="POST">
+        <form class="form" action="http://<?= parent::$host ?>/applications/<?= $id ?>" method="POST">
             <input type="hidden" name="_method" value="PATCH">
 
             <h3>Edit Application</h3>
@@ -25,8 +25,8 @@ class EditForm extends MainView
 
             <label for="job_description">Job Description</label>
             <textarea name="job_description" rows="6">
-            <?= $application->job_description ?>
-            </textarea>
+                    <?= $application->job_description ?>
+                    </textarea>
 
             <label for="apply_date">Application Date</label>
             <input type="date" name="apply_date" value="<?= $application->apply_date ?>">
@@ -61,5 +61,7 @@ class EditForm extends MainView
         </form>
 
         <?php
+
+        parent::footer();
     }
 }

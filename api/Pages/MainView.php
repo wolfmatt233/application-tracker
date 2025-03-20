@@ -5,15 +5,23 @@ namespace Api\Pages;
 class MainView
 {
 
+    public static $host;
     public static $pageTitle = '';
     public static $curLinkHome = '';
     public static $curLinkCreate = '';
     public static $showEdit = '';
     public static $editId = '';
 
+    public static function initHost()
+    {
+        self::$host = $_SERVER['HTTP_HOST'];
+    }
+
     public static function header()
     {
+        self::initHost();
         ?>
+        
         <!DOCTYPE html>
         <html lang="en">
 

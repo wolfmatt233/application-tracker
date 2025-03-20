@@ -4,7 +4,10 @@ use Api\Controllers\Controller;
 use Slim\Routing\RouteCollectorProxy as Group;
 
 $app->get('/', function () {
-    header("Location: http://localhost:5000/applications");
+    $host = $_SERVER['HTTP_HOST'];
+    $url = "http://$host/applications";
+
+    header("Location: $url");
     die();
 });
 
